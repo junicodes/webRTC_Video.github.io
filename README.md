@@ -1,5 +1,6 @@
 # webRTC_Video.github.io
-# demo Link https://webchatapp-2019.firebaseapp.com/#init
+# demo Link to start video chat https://webchatapp-2019.firebaseapp.com/#init
+# demo Link to join video chat https://webchatapp-2019.firebaseapp.com/
 ## This is a real video chat application built with webRtc simple-peer (Node.js)
 ### To use this project just click the green button to copy the url
 ### open a folder in yo local machine
