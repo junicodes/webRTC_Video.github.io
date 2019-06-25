@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Real time video Chat</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  </head>
+  <body class="container">
+    <div class="col-md-12 col-lg-6 offset-lg-3 offset-md-0 mt-5">
+      <form class="col-12 border">
+          <label class="mt-2" for="">Your Id:</label>
+          <textarea  id="yourId" class="form-control" type="text" name="" value="" style="cursor:pointer" title="click to copy"></textarea
+          <label class="mt-2" for="">Receiver Id:</label>
+          <textarea id="receiverId" class="form-control" type="text" value="" style="cursor:pointer" title="click to copy"></textarea>
+          <button id="connect" class="btn-primary btn mt-3 mb-2" type="button" name="button">Connect</button>
+      </form>
+      <form class="col-12 border">
+          <label class="mt-2" for="">Message:</label>
+          <textarea  id="yourMessage" class="form-control" type="text" value="" style="cursor:pointer" title="Message" placeholder="Type a message"></textarea>
+          <button id="send" class="btn-primary btn mt-3 mb-2" type="button" name="button">Send</button>
+      </form>
+      <pre id="messages"></pre>
+    </div>
+    
+    <script type="text/javascript" src="bundle.js"></script>
+  </body>
+</html>
