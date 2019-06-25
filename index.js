@@ -1,5 +1,5 @@
 //Activate the video and audio of the browser
-const constraints = { audio: false, video: true }
+const constraints = { audio: true, video: true }
 
 navigator.mediaDevices.getUserMedia(constraints)
 .then(function(stream) {
