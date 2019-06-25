@@ -45,7 +45,7 @@
     console.log(data);
     document.querySelector('#messages').textContent += `${data}\n`;
   });
-  // 
+  //
   // peer.on('stream', function (stream) {
   //   let video = document.createElement('video')
   //   document.body.appendChild(video)
