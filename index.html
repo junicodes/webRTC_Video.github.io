@@ -6,25 +6,150 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
   </head>
+  <style media="screen">
+  .chat_block {
+    display: none;
+  }
+  .message_block {
+    display: none;
+  }
+
+  .currentUser {
+    display: none;
+  }
+  #noctice_block {
+    font-size: 25px;
+  }
+  #connect {
+    display: none;
+  }
+  video {
+    display: none;
+  }
+  </style>
+
   <body class="container">
     <div class="col-md-12 col-lg-6 offset-lg-3 offset-md-0 mt-5">
-      <form class="col-12 border">
+      <p id='noctice_block'>Initiate a video chat</p>
+        <button class=" col-12 btn-primary btn mt-3 mb-2" type="button" name="button" id="init"
+         style="background: lightgreen; border-color:lightgreen; font-weight:bold; font-size:25px;">Initiate</button>
+        <button class=" col-12 btn-primary btn mt-3 mb-2" type="button" name="button" id="join"
+          style="background: orange; border-color:orange; font-weight:bold; font-size:25px;">Join</button>
+        <select class="col-12 form-control currentUser" style="z-index:9; font-size:25px;">
+          <option value="">Select your a username</option>
+          <option value="juniCodfire">juniCodefire</option>
+          <option value="uzor">uzor</option>
+          <option value="francis">francis</option>
+          <option value="jerry">jerry</option>
+          <option value="emma">emma</option>
+          <option value="favour">favour</option>
+        </select>
+      <form class="col-12 border chat_block" id="cud">
           <label class="mt-2" for="">Your Id:</label>
-          <textarea  id="yourId" class="form-control" type="text" name="" value="" style="cursor:pointer" title="click to copy"></textarea
+          <textarea class="form-control sender"  value="" style="cursor:pointer" title="click to copy" id="yourId"></textarea
           <label class="mt-2" for="">Receiver Id:</label>
-          <textarea id="receiverId" class="form-control" type="text" value="" style="cursor:pointer" title="click to copy"></textarea>
-          <button id="connect" class="btn-primary btn mt-3 mb-2" type="button" name="button">Connect</button>
+          <textarea  class="form-control"  value="" style="cursor:pointer" title="click to copy" id="receiverId"></textarea>
       </form>
-      <form class="col-12 border">
+      <button class="btn-primary btn mt-3 mb-2" type="button" name="button" id="connect" style="background:lightgreen; border-color:lightgreen;">Answer</button>
+    </div>
+    <div class="col-md-12 col-lg-12">
+      <video class="col-md-6" style="width:100%; float:right;"></video>
+      <div  class="col-md-6" style="float:left;">
+        <form class="col-12 border message_block">
           <label class="mt-2" for="">Message:</label>
-          <textarea  id="yourMessage" class="form-control" type="text" value="" style="cursor:pointer" title="Message" placeholder="Type a message"></textarea>
-          <button id="send" class="btn-primary btn mt-3 mb-2" type="button" name="button">Send</button>
-      </form>
-      <pre id="messages"></pre>
-      <video></video>
+          <input class="form-control" type="text" value="" style="cursor:pointer" title="Message" placeholder="Type a message" id="yourMessage" disabled/>
+          <button class="btn-primary btn mt-3 mb-2" type="button" name="button" id="send" disabled>Send</button>
+        </form>
+        <pre id="messages"></pre>
+      </div>
     </div>
 
+
+    <script type="text/javascript">
+      const parsedUrl = new URL(window.location.href);
+      let urlInit = parsedUrl.searchParams.get("initiator");
+      let urlReceiver = parsedUrl.searchParams.get("receiver");
+      let urlActive = parsedUrl.searchParams.get("active");
+
+
+      const init = document.querySelector('#init');
+      const join = document.querySelector('#join');
+      const currentUser = document.querySelector('.currentUser');
+
+      const recentView = location.hash;
+
+       if (urlInit) {
+          $('#noctice_block').html('Select another user to call');
+          $('#join').css('display', 'none');
+          $('.currentUser').css('display', 'block');
+          $('#init').html('Connect');
+       }
+       if(!urlInit && location.hash === '#init' || !urlActive && location.hash === '#join'){
+         location.replace('https://webchatapp-2019.firebaseapp.com/');//https://webchatapp-2019.firebaseapp.com/
+       }
+
+      if (recentView == '#join') {
+        $('#init').css('display', 'none');
+        $('#join').css('display', 'none');
+        $('#noctice_block').html(`Waiting for a call...`);
+        $('#noctice_block').css('color', 'orange');
+
+      }else if(recentView == '#init'){
+        $('.currentUser').css('display', 'none');
+        $('#init').css('display', 'none');
+        $('#noctice_block').html(`Calling (${urlReceiver})...`);
+        $('#noctice_block').css('color', 'lightgreen');
+      }
+
+      init.addEventListener('click', function(e) {
+        e.preventDefault();
+        $('.currentUser').css('display', 'block');
+        $('#join').css('display', 'none');
+        const initiator = document.querySelector('.currentUser').value;
+        const receiver = document.querySelector('.currentUser').value;
+
+        if(initiator === '') {
+          $('#noctice_block').html('Please select an initiator username to initiate!');
+          $('#noctice_block').css('color', 'green');
+          return false;
+
+        } else {
+          if (urlInit) {
+            location.replace(`${location.href}&receiver=${receiver}#init`);
+          }else{
+            location.replace(`${location.href}?initiator=${initiator}`);
+          }
+        }
+      });
+
+      join.addEventListener('click', function(e) {
+        e.preventDefault();
+        $('.currentUser').css('display', 'block');
+        $('#init').css('display', 'none');
+        const active = document.querySelector('.currentUser').value;
+
+        if(active === '') {
+          $('#noctice_block').html('Please select receiver username to join!');
+          $('#noctice_block').css('color', 'orange');
+          return false;
+        } else {
+            location.replace(`${location.href}?active=${active}#join`);
+        }
+
+
+      });
+
+
+
+      //Check for onChange Event on the
+      currentUser.addEventListener('change', function(e) {
+        e.preventDefault();
+          $('#init').html('Proceed');
+          $('#join').html('Proceed');
+      });
+    </script>
     <script type="text/javascript" src="bundle.js"></script>
   </body>
 </html>
