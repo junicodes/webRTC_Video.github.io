@@ -2837,7 +2837,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 // the user ID Token
 let initHolder;
 let receiverHolder;
-const socket = io('http://localhost:4000/');
+const socket = io('https://webrtcchat-2019.herokuapp.com/');
 
 //Control the view if the user is not on init condition
 
