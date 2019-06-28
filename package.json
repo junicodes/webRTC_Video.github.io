@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node server.js"
+    "start": "budo server.js:bundle.js"
   },
   "devDependencies": {
     "budo": "^4.1.0"
