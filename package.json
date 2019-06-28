@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "budo server.js:bundle.js"
+    "start": "node server.js"
   },
   "devDependencies": {
     "budo": "^4.1.0"
@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "getusermedia": "^2.0.1",
-    "simple-peer": "^9.3.0"
+    "simple-peer": "^9.3.0",
+    "socket.io": "^2.2.0"
   }
 }
