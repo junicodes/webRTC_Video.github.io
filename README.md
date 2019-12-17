@@ -10,5 +10,5 @@
 ## npm install -g budo
 ### Also you must have browserify.js in you local machine or else install globally
 # Enjoy
-### Send me a male for any issue junicodefire@gmail.com
+### Send me a mail for any issue junicodefire@gmail.com
 
